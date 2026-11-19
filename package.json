@@ -1,0 +1,16 @@
+{
+  "name": "lampalaz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lámpaláz – csoportos szavazós kalandjáték kezdő pedagógusoknak",
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.34.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

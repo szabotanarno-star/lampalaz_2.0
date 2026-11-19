@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lámpaláz – MI az első tanévben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f1e8; --card:#fffdf8; --ink:#1e2a2f; --muted:#5d6a6f; --line:#ddd5c4;
+  --accent:#2f5d62; --accent2:#a0522d;
+  --red:#c0392b; --yellow:#d4a017; --green:#2e8b57; --blue:#2b6cb0; --off:#3a4448;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:700;line-height:1.2;margin:0 0 .4em}
+h1{font-size:clamp(34px,5vw,52px);letter-spacing:-.01em}
+h2{font-size:clamp(22px,3vw,28px)}
+h3{font-size:18px}
+a{color:var(--accent)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}.side{order:2}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);font-weight:700;margin-bottom:6px}
+.sub{font-family:Fraunces,Georgia,serif;font-size:20px;color:var(--accent);margin:0 0 18px}
+.body p{margin:0 0 .8em}
+.opts{display:grid;gap:12px;margin-top:18px}
+.opt{display:flex;gap:14px;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
+.opt:hover,.opt:focus-visible{border-color:var(--accent);outline:none;transform:translateY(-1px)}
+.opt .k{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+.chosen{border-left:5px solid var(--accent);background:#f3f7f6;border-radius:10px;padding:14px 16px;margin:14px 0}
+.other{border-left:5px solid var(--line);background:#faf8f3;border-radius:10px;padding:14px 16px;margin:14px 0}
+.lbl{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.src{border:1px dashed var(--line);border-radius:10px;padding:12px 16px;font-size:15.5px;color:#34413f;margin-top:16px}
+.src .lbl{color:var(--accent2)}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:600 16px "Source Sans 3",sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+ul.intro{padding-left:20px;margin:10px 0 18px}
+ul.intro li{margin-bottom:6px}
+.legend{display:grid;gap:8px;margin:12px 0 4px}
+.legend div{display:flex;gap:10px;align-items:flex-start;font-size:15.5px}
+.dot{flex:0 0 14px;height:14px;border-radius:50%;margin-top:5px}
+.note{font-size:14.5px;color:var(--muted)}
+/* side */
+.side .card{padding:20px}
+.side h3{margin-bottom:10px}
+.light{display:flex;gap:16px;align-items:center}
+.pole{background:var(--off);border-radius:18px;padding:10px 9px;display:grid;gap:8px}
+.lamp{width:30px;height:30px;border-radius:50%;background:#55605f;opacity:.35;transition:all .3s}
+.lamp.on{opacity:1;box-shadow:0 0 14px 3px currentColor}
+.lamp.r{color:var(--red)} .lamp.y{color:var(--yellow)} .lamp.g{color:var(--green)} .lamp.b{color:var(--blue)}
+.lamp.r.on{background:var(--red)} .lamp.y.on{background:var(--yellow)} .lamp.g.on{background:var(--green)} .lamp.b.on{background:var(--blue)}
+.lighttxt{font-size:15px}
+.tl{display:flex;gap:4px;margin:6px 0 2px}
+.tl span{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.tl span.done{background:var(--accent)} .tl span.now{background:var(--accent2)}
+.tlx{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.doms{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dom{font-size:14px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--muted);background:#fbf9f4}
+.dom b{display:block;font-size:20px;color:var(--ink);font-family:Fraunces,serif}
+.dom.hit{border-color:var(--accent);color:var(--ink);background:#eef4f3}
+.nb{list-style:none;margin:0;padding:0;font-size:14.5px}
+.nb li{padding:6px 0;border-bottom:1px dotted var(--line);display:flex;gap:8px}
+.nb li:last-child{border:0}
+.nb .m{flex:0 0 58px;color:var(--accent2);font-weight:600}
+.empty{color:var(--muted);font-size:14.5px;font-style:italic}
+.side>.card+.card{margin-top:16px}
+/* end */
+ol.disc li{margin-bottom:8px}
+details{margin-top:18px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+summary{cursor:pointer;font-weight:600}
+.rev>div{padding:10px 0;border-bottom:1px dotted var(--line);font-size:15.5px}
+.rev .t{font-weight:700;color:var(--accent)}
+.sources{font-size:15px}
+.sources li{margin-bottom:6px}
+.send{margin-top:22px;background:#f3f7f6;border:1px solid #cfe0dd;border-radius:12px;padding:18px 20px}
+.field{margin:10px 0}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:4px}
+.field input,.field textarea{width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.field textarea{min-height:140px;resize:vertical}
+.msg{font-size:14.5px;color:var(--accent);min-height:1.2em;margin-top:6px}
+footer{margin-top:30px;font-size:13.5px;color:var(--muted)}
+
+.modebox{margin:18px 0 4px;padding:16px 18px;border:1px solid #cfe0dd;background:#f3f7f6;border-radius:12px}
+.join label{font-weight:700}
+.codein{font:700 24px/1 "Source Sans 3",sans-serif;letter-spacing:.25em;text-transform:uppercase;width:9.5em;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.codebar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14.5px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.code{letter-spacing:.15em;color:var(--ink)}
+.bigcode{font:700 clamp(56px,10vw,104px)/1 Fraunces,Georgia,serif;letter-spacing:.18em;text-align:center;color:var(--accent);margin:18px 0}
+.center{text-align:center}
+.opt.static{cursor:default}
+.opt.static:hover{transform:none;border-color:var(--line)}
+.opt.sel{border-color:var(--accent);background:#eef4f3;box-shadow:inset 0 0 0 1.5px var(--accent)}
+.bars{display:grid;gap:8px;margin:12px 0 4px}
+.bar{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;font-size:15px}
+.bk{width:26px;height:26px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-weight:700}
+.bar.win .bk{background:var(--accent);color:#fff}
+.track{height:14px;background:#ece6d9;border-radius:7px;overflow:hidden}
+.fill{display:block;height:100%;background:#9fb9b5;transition:width .4s}
+.bar.win .fill{background:var(--accent)}
+.bv{color:var(--muted);min-width:6.5em;text-align:right}
+.tie{margin-top:14px;padding:12px 14px;border:1px solid var(--accent2);border-radius:10px;background:#fbf3ec}
+.pill{display:inline-block;font-size:13px;padding:1px 8px;border-radius:9px;background:#eef4f3;color:var(--accent);font-weight:700}
+button:disabled{opacity:.55;cursor:wait}
+.hostbox{margin-top:14px;border:0;background:transparent;padding:0}
+.hostbox summary{font-size:14.5px;color:var(--muted)}
+.pwin{font:inherit;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:#fff;width:14em}
+.url{font-size:18px;color:var(--muted);margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="grid">
+    <main id="story" class="card" aria-live="polite"></main>
+    <aside class="side" aria-label="Fekete Bence tanéve">
+      <div class="card">
+        <h3>Az aktuális feladat lámpája</h3>
+        <div class="light">
+          <div class="pole" aria-hidden="true"><div class="lamp r" id="L-r"></div><div class="lamp y" id="L-y"></div><div class="lamp g" id="L-g"></div><div class="lamp b" id="L-b"></div></div>
+          <div class="lighttxt" id="lighttxt"><span class="empty">A lámpa akkor gyullad fel, ha egy döntés egy feladat MI-szerepéről szól.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Tanév</h3>
+        <div class="tl" id="tl"></div>
+        <div class="tlx"><span>szept.</span><span>febr.</span></div>
+      </div>
+      <div class="card">
+        <h3>Érintett MI-műveltségi területek</h3>
+        <div class="doms" id="doms"></div>
+        <p class="note" style="margin:8px 0 0">Az AILit-keretrendszer négy területe. A szám azt mutatja, hány döntés érintette eddig; nem minősítés.</p>
+      </div>
+      <div class="card">
+        <h3 id="nbtitle">Bence jegyzetfüzete</h3>
+        <ul class="nb" id="nb"><li class="empty">Még üres.</li></ul>
+      </div>
+    </aside>
+  </div>
+  <footer>Lámpaláz – kalandjáték kezdő pedagógusoknak. Szereplői kitaláltak. Készítette: Szabó Márta, 2026.</footer>
+</div>
+
+<script>
+const LIGHTS={
+  r:{n:'Piros',d:'A feladat MI nélkül készül.'},
+  y:{n:'Sárga',d:'MI csak a tanár által megnevezett célra használható (pl. ötletkérés, nyelvi javítás), jelölve.'},
+  g:{n:'Zöld',d:'MI szabadon használható, a használat jelölésével.'},
+  b:{n:'Kék',d:'Az MI használata maga is a feladat része.'}
+};
+const DOMS=[['int','MI-vel való interakció'],['alk','MI-vel való alkotás'],['kez','MI kezelése'],['ala','MI alakítása']];
+const KEYS=['A','B'];
+
+const SCENES=[
+{
+  kicker:'Szeptember · első hét', m:'szept.', title:'Szabály a tábla sarkában',
+  body:`<p>Fekete Bence első éves történelem–magyar szakos tanár: a 9.b-t és a 10.a-t tanítja. Az iskola MI-szabályzata még készül. A mentora, Kiss Judit az első napon csak ennyit mond neki: „Az első órán döntsd el, mit mondasz a gyerekeknek az MI-ről. Úgyis megkérdezik.”</p>
+  <p>Az első 9.b-s órán valóban jön a kérdés a hátsó padból: „Tanár úr, szabad ChatGPT-t használni?” Bence kezdőként tudja, hogy amit most kimond, az egész évre a teremben marad.</p>`,
+  opts:[
+    {t:'Egy tantárgyi alapszabályt hirdet ki egész évre: órai munkánál nem, otthoni munkánál igen, de a használatot jelölni kell.',
+     o:'A szabály egyszerű, a diákok megjegyzik, és Bencének sem kell minden feladatnál magyarázkodnia. Az első félév közepén azonban kiderül, hogy az otthoni szövegalkotásnál túl tág: a „jelölve igen” alatt a diákok mást és mást értenek. Novemberben ki kell egészítenie.',
+     l:null,d:['kez'],n:'Egységes tantárgyi alapszabály'},
+    {t:'Minden feladatnál színnel jelzi, milyen szerepet kaphat az MI (piros, sárga, zöld, kék), a jelentést pedig kiteszi a terem falára.',
+     o:'Az első hetekben sok a kérdés, és Bence két feladatnál elfelejti kitenni a színt. Egy hónap múlva viszont a diákok már a feladat kiadásakor ránéznek a jelzésre, és kevesebb a vita arról, mi volt megengedett.',
+     l:'all',d:['kez','int'],n:'Feladatonkénti lámpajelzés'}
+  ],
+  src:`A <b>közlekedési lámpa modell</b> a finn Arene 2024-es ajánlásán alapul. A színek gyors visszajelzést adnak arról, milyen szerepet kaphat az MI egy feladatban, a kék pedig kiegészítő jelzés. A cikk fő üzenete, hogy az MI szerepét már a feladat kiadásakor érdemes tisztázni, és hogy a használat feladatonként eltérhet: önálló szövegalkotásnál és reflexiónál például indokolt lehet a tiltás. <i>A színek pontos jelentését a játék saját munkadefinícióként adja meg (lásd a kezdőképernyőt).</i>`,
+  refs:[1]
+},
+{
+  kicker:'Szeptember vége', m:'szept.', title:'Csendben érkezett funkció',
+  body:`<p>Egy hétfő reggel új gomb jelenik meg az iskola tanulásirányító rendszerében: „Kvíz generálása MI-vel”. A rendszer a rövid válaszokat automatikusan pontozza is. Senki nem jelezte előre, hogy jön.</p>
+  <p>Bencének heti órákat spórolhatna meg. A 10.a-ban heti röpdolgozatot tervezett, és ezekből kis jegyet adna.</p>`,
+  opts:[
+    {t:'Kipróbálja, de csak gyakorlásra: amíg többet nem tud az eszközről, a gépi pontozásból nem ad jegyet.',
+     o:'Bence időt nyer, és az értékelési döntés nála marad. Amikor végigkérdezi magában, milyen adatokat gyűjt a rendszer és ki felel egy hibás pontozásért, két kérdésre nem tud válaszolni. Ezért a jegyadás egyelőre vár. A diákok közül néhányan a gyakorló kvízt kevésbé veszik komolyan.',
+     l:'y',d:['int','kez'],n:'Gépi kvíz csak gyakorlásra'},
+    {t:'Mielőtt bármit használna, az igazgatóhelyettessel végigveszi az uniós útmutató ellenőrző kérdéseit.',
+     o:'Két hét csúszás. Közben megtudja, hogy az iskola alkalmazóként jogi felelősséggel is tartozik a használt eszközökért, és hogy a tanulmányi értékelés magas kockázatú terület. A beszélgetésből közös próbaidőszak lesz világos szabályokkal, és két kolléga is csatlakozik.',
+     l:null,d:['kez','ala'],n:'Ellenőrzés a vezetéssel bevezetés előtt'}
+  ],
+  src:`Az Európai Bizottság 2026 márciusában frissítette az <b>MI-etikai útmutatót oktatóknak</b>. A 2022-es változat még főként önkéntes vállalásokat fogalmazott meg, az új már az MI-rendeletből indul ki: az iskola alkalmazóként felel az eszközeiért. Magas kockázatú terület többek között a tanulmányi értékelés; ezekre 2026. augusztus 2-tól kötelező szabályok vonatkoznak. Az útmutató nyolc szempontot ad az eszközök vizsgálatához (pl. emberi kontroll, adatvédelem, elszámoltathatóság), és figyelmeztet, hogy a beépülő MI-funkciók gyakran előzetes értesítés nélkül jelennek meg. Ha egy kérdésre nem a válasz, az még nem tiltás, hanem további lépést jelent.`,
+  refs:[2]
+},
+{
+  kicker:'Október', m:'okt.', title:'A reformkor húsz egyforma arca',
+  body:`<p>A 10.a házi feladata ez volt: „Írj egyoldalas összefoglalót a reformkorról.” Húsz dolgozat érkezik, mind rendezett, egyik sem hibás, és szinte egyik sem személyes. Bence nem tudja eldönteni, ki mit értett meg belőle.</p>
+  <p>A mentora vállat von: „Nem a gyerekekkel van baj. A feladattal.”</p>`,
+  opts:[
+    {t:'Átírja a feladatot: a diák válasszon ki három reformkori törekvést, nevezze meg mindegyikhez a megoldandó problémát, és jelölje meg a forrását. Az MI ötletkérésre használható.',
+     o:'A dolgozatok rövidebbek és egyenetlenebbek lettek, de látszik bennük a választás. Két diák ugyanazt a három törekvést választja, mégis egészen mást ír a problémáról. Bence most már tud mire visszajelzést adni.',
+     l:'y',d:['int','alk'],n:'Feladat átírása: választás + probléma + forrás'},
+    {t:'Az összefoglaló órán, MI nélkül készül. Otthonra csak a vázlat és a forráslista marad, ott szabad az MI.',
+     o:'Az órai szövegekből tisztán látszik, ki mit tud fejből. Elmegy rá egy teljes tanóra, és néhány lassabban író diák csak félig készül el. Az otthoni vázlatok viszont jó kiindulópontot adnak a következő órához.',
+     l:'r',d:['kez'],n:'Órai írás MI nélkül, otthoni vázlat'}
+  ],
+  src:`A <b>tanári átalakító sablon</b> négy kérdéssel vizsgálja a meglévő feladatot: mi volt a régi feladat; sérülékeny-e, vagyis készülhet-e belőle rendezett szöveg tanulói gondolkodás nélkül; milyen kis kiegészítés teszi tanulásközpontúbbá; és miből látszik majd a tanuló saját teljesítménye. A cikk éppen a reformkori összefoglalót hozza példának: az átalakított változat három törekvés kiválasztását, a hozzájuk tartozó probléma megnevezését és forrásmegjelölést kér. A lámpamodell szerint pedig ugyanazon a témán belül is eltérhet az egyes részfeladatok színe.`,
+  refs:[6,1]
+},
+{
+  kicker:'Október vége', m:'okt.', title:'Dani nem tudja elmondani',
+  body:`<p>A 9.b-ben Dani Petőfi-elemzése kifogástalan, szinte túl jó. Amikor Bence órán megkérdezi, miért éppen azt a sort emelte ki, Dani elpirul, és nem tud válaszolni.</p>
+  <p>Dani csendes, de szorgalmas fiú. Bence érzi, hogy amit most tesz, azt a fiú, és a figyelő osztály is, sokáig megjegyzi.</p>`,
+  opts:[
+    {t:'Óra után négyszemközt megkéri, hogy saját szavaival mondja el, mit írt. Ha nem megy, új határidőt ad.',
+     o:'Dani bevallja, hogy a gép írta az elemzést, mert félt, hogy az övé nem lesz elég jó. Az új változat rövidebb, két mondata bizonytalan, de a sajátja. A beszélgetés egyéni marad, az osztály többi tagja nem kap belőle tanulási helyzetet.',
+     l:null,d:['int'],n:'Négyszemközti „mondd el saját szavaiddal”'},
+    {t:'Senkit nem nevesít. A következő órán az egész osztállyal besoroltat három esetet (segítség, támogatás, helyettesítés), és a beadandók végére bevezeti a négy használati szint jelölését.',
+     o:'Élénk vita kerekedik arról, hol végződik a támogatás. Dani nem szól, de a következő beadandója végén a „segítségkérés” szintet jelöli meg. Bence nem tudja biztosan, hogy a fiú értette-e, miért nem fogadható el az első munkája.',
+     l:null,d:['int','kez'],n:'Közös fogalmi nyelv: segítség / támogatás / helyettesítés'}
+  ],
+  src:`A cikk szerint a felelős MI-használat akkor tanítható, ha a pedagógus konkrét tanulási műveletekről beszél, nem általános tiltásokról. Három alaphelyzetet különít el: <b>segítség</b> (kapaszkodó elakadáskor), <b>támogatás</b> (ötlet, vázlat, nyelvi javítás, de a választás a tanulóé) és <b>helyettesítés</b> (a gondolkodás átadása a gépnek). Négy használati szintet is leír: másolás, segítségkérés, ellenőrzött és reflektált használat. Ha a diák a beadandó végén maga jelöli, hol tart, az a szerző szerint tanulási diagnózis, nem önfelmentés. A végső próba: el tudja-e mondani, amit beadott.`,
+  refs:[5,6]
+},
+{
+  kicker:'November', m:'nov.', title:'Széchenyi a hídon',
+  body:`<p>Bence képgenerátorral fotószerű képet készít arról, ahogy Széchenyi a Lánchíd építkezésén áll. A kép a prezentációjába és az osztály nyilvános oldalára is felkerül. Ugyanezen a héten MI-vel írja meg a szülőknek szóló havi hírlevél első változatát, amelyet aztán maga átnéz és kijavít.</p>
+  <p>Augusztus 2. óta élnek az uniós MI-rendelet átláthatósági szabályai. Bence azon gondolkodik, mit és hogyan jelöljön.</p>`,
+  opts:[
+    {t:'Mindent jelöl, amiben MI dolgozott, a hírlevéltől a feladatlapig, egységes „MI által generált / módosított” címkével.',
+     o:'A diákok következetes mintát látnak, és kérdés nélkül elkezdik ők is jelölni a munkáikat. Egy szülő megköszöni az őszinteséget. Egy kolléga szerint viszont ha minden meg van jelölve, a jelölés elveszíti a súlyát.',
+     l:'g',d:['alk','kez'],n:'Minden MI-tartalom jelölése'},
+    {t:'Ott jelöl, ahol a szabály kifejezetten előírja: a fotószerű kép mellé címke kerül. A hírlevelet viszont maga nézte át, és a nevével vállalja.',
+     o:'A jelölésnek így súlya van, és Bence órán meg tudja mutatni, mi a különbség a valóságosnak tűnő kép és az emberi átnézés után vállalt szöveg között. Egy diák rákérdez, miért nincs címke a hírlevélen. A válaszból jó óra lesz.',
+     l:'b',d:['alk','kez','ala'],n:'Jelölés ott, ahol a szabály előírja'}
+  ],
+  src:`Az MI-rendelet 50. cikkének átláthatósági szabályai 2026. augusztus 2-tól hatályosak. Az összefoglaló szerint a generatív MI-t használó szakembereknek három helyzetben kell jelölniük: valódi személlyel, hellyel vagy eseménnyel összetéveszthető kép, hang vagy videó esetén; emberi felülvizsgálat nélkül közzétett, közérdekű szövegnél; és a felhasználóval közvetlenül beszélgető csevegőrobotnál. Az EU jelölőikonjai nem kötelezők, a jelölési kötelezettség viszont igen. A tanulóknak pedig fel kell ismerniük, mikor kötelező a jelölés, és ki felel a tartalomért. <i>A játék egyszerűsít: a gyakorlatban az eredeti iránymutatás és az iskolai szabályzat az irányadó.</i>`,
+  refs:[8,2]
+},
+{
+  kicker:'December', m:'dec.', title:'Témazáró, másképp',
+  body:`<p>A 10.a reformkori projektje a végéhez közeledik. Bence a munkaközösségi értekezleten azt hallja: „Ha otthon készül, úgysem tudod, ki csinálta.” Kezdőként az értékelés ad neki a legtöbb álmatlan éjszakát.</p>`,
+  opts:[
+    {t:'Emberközpontú, többrétegű értékelést tervez: valós helyzet (ajánlás a helyi múzeum reformkori kiállításához), munkanapló, és diákonként háromperces szóbeli védés.',
+     o:'A védéseken kiderül, ki mit gondolt végig. Egy gyengébb író diák szóban meglepően erős. Huszonöt védés viszont két teljes tanóra, és Bence fáradtan érzi, hogy néhány kérdése túl szigorú lett.',
+     l:'g',d:['alk','int'],n:'Többrétegű értékelés szóbeli védéssel'},
+    {t:'Ötszempontú értékelési táblát ad ki már a projekt elején (pontosság, saját gondolkodás, forráshasználat, MI-használat jelzése, megvédhetőség), előre jelzett súlyozással.',
+     o:'A diákok pontosan tudják, mit kell megmutatniuk, ezért kevesebb a vita a jegyekről. A „megvédhetőséget” Bence két-két rövid kérdéssel méri. Ez gyors, de nem mindenkinél mutat teljes képet.',
+     l:'y',d:['kez'],n:'Előre kiadott ötszempontú értékelés'}
+  ],
+  src:`A <b>SHIELD-keretre</b> épülő cikk szerint az MI nem elrontotta az értékelést, hanem megmutatta, hogy sok feladat eddig is a kész produktumra épült. Az elemek: helyzetbe ágyazott feladat, emberközpontúság, párbeszéd, bizonyítékalapúság (vázlat, napló, javított változat), többrétegű értékelés és a tudás bemutatása. A Modern Iskola-sorozat középiskolára öt szempontot javasol, projektmunkára pedig mérlegelési keretként 40–20–20–20%-os súlyozást (tartalom, munkafolyamat, forrás és ellenőrzés, bemutatás vagy reflexió). Mindkét forrás hangsúlyozza: a szempontokat a munka elején kell megismerniük a tanulóknak.`,
+  refs:[7,6]
+},
+{
+  kicker:'Január', m:'jan.', title:'Kérdés a szülői értekezleten',
+  body:`<p>A szülői értekezlet végén egy apa felmutatja a telefonját. A címlapon ez áll: „Katasztrofális veszélyre figyelmeztet az ENSZ az AI kapcsán.”</p>
+  <p>„Ha ez ilyen veszélyes, miért tanítják a gyerekeimnek?” Húsz szülő figyeli, mit felel az új tanár.</p>`,
+  opts:[
+    {t:'Komolyan veszi a kérdést: röviden elmondja, mit állít a jelentés, és hogy épp ezért tanítják az ellenőrzést és a jelölést.',
+     o:'Néhány szülő bólint, egy anyuka később e-mailben megköszöni, hogy nem söpörte le a kérdést. Az értekezlet húsz perccel tovább tart, és a kérdező apa nem lesz meggyőzve, de elfogadja, hogy az iskola nem naiv.',
+     l:null,d:['ala','kez'],n:'A kockázatok nyílt vállalása a szülők előtt'},
+    {t:'Elismeri, hogy a kérdés valós és fontos, de a beszélgetést arra tereli, mit csinálnak a gyerekek órán. Meghívja az apát egy nyitott órára.',
+     o:'Az apa két hét múlva eljön, és végignézi, ahogy a diákok gépi válaszokat sorolnak be pontos, leegyszerűsítő és ellenőrzendő kategóriákba. Utána ő kéri, hogy a következő értekezleten ezt mutassák meg a többi szülőnek is.',
+     l:null,d:['ala','int'],n:'Nyitott óra az aggódó szülőnek'}
+  ],
+  src:`A HVG az ENSZ MI-vel foglalkozó független tudományos testületének előzetes jelentéséről számolt be. A negyvenfős testület szerint az MI fejlődése megelőzi a tudományos megértést és a kormányzati alkalmazkodást, ezért nincs garancia arra, hogy nem okoz katasztrofális kárt. Egyre több bizonyíték utal megtévesztő viselkedésre, a kockázat pedig a rendszer hibájából és rosszindulatú felhasználásból is eredhet. Az uniós útmutató szerint az iskolai közösség, köztük a szülők bevonása már az etikai keretrendszer része, nem csupán ajánlás.`,
+  refs:[3,2]
+},
+{
+  kicker:'Február · félév', m:'febr.', title:'Javaslat a munkaközösségnek',
+  body:`<p>A munkaközösség-vezető a félévi értekezleten Bencét kéri meg, hogy hozzon javaslatot a második félévre. Azt mondja: „Te vagy a legfiatalabb, te érted.” Bence tudja, hogy ez csak félig igaz.</p>
+  <p>Közben rátalált az EU és az OECD MI-műveltségi keretrendszerére, és azt is olvasta, hogy az iskolának gondoskodnia kell a munkatársai MI-jártasságáról.</p>`,
+  opts:[
+    {t:'A saját két osztályán kezdi: feladatait a keretrendszer négy területe szerint rendezi, és a félév végén tapasztalatokkal áll a munkaközösség elé.',
+     o:'Kiderül, hogy Bence feladatai szinte mind az „interakció” és a „kezelés” területén vannak, alkotás alig, alakítás egyáltalán nincs. Erre magától nem jött volna rá. A munkaközösség érdeklődve vár, de júniusig senki más nem változtat semmin.',
+     l:null,d:['int','alk','kez','ala'],n:'Saját feladatok feltérképezése az AILit szerint'},
+    {t:'Egyszerű közös eszközt javasol: egységes forrásellenőrző mondatokat és MI-jelölést minden történelem- és magyarórán.',
+     o:'Két kolléga lelkes, egy szkeptikus, de belemegy a próbába. A diákok márciustól minden órán ugyanazt a jelölést látják. Bencének a megvalósítás felénél kell szembesülnie azzal, hogy a közös szabály nem illik minden kolléga feladataihoz.',
+     l:'y',d:['kez','ala'],n:'Közös munkaközösségi minta'}
+  ],
+  src:`Az <b>AILit-keretrendszer</b> az Európai Bizottság és az OECD közös kezdeményezése, a PISA 2029 innovációs területéhez kapcsolódik. A kompetenciák négy területre oszlanak: MI-vel való interakció, MI-vel való alkotás, MI kezelése, MI alakítása. Minden tantárgyban és életkorban használható. A Modern Iskola-sorozat háromszintű bevezetést javasol (minimum, fejlesztő, haladó), ahol a haladó szint már munkaközösségi együttműködés közös mintákkal. Az uniós útmutató szerint az MI-rendelet a munkatársak MI-jártasságát az iskola kötelezettségévé teszi, így a pedagógus-továbbképzés szabályozói elvárás lett.`,
+  refs:[4,6,2]
+}
+];
+
+const SOURCES=[
+ [1,'Tóth Éva: Zöld utat az MI-nek? – így segít eligazodni a közlekedési lámpa modell az oktatásban. Modern Iskola, 2026. április (az Arene 2024-es ajánlása alapján).','https://moderniskola.hu/2026/04/zold-utat-az-mi-nek-igy-segit-eligazodni-a-kozlekedesi-lampa-modell-az-oktatasban/'],
+ [2,'Megújult az Európai Bizottság a mesterséges intelligencia oktatási célú felhasználásáról szóló etikai keretrendszere. Modern Iskola, 2026. május.','https://moderniskola.hu/2026/05/megujult-az-europai-bizottsag-a-mesterseges-intelligencia-az-oktatasi-celu-felhasznalasarol-szolo-etikai-keretrendszere/'],
+ [3,'Katasztrofális veszélyre figyelmeztet az ENSZ az AI kapcsán. HVG, 2026. július 2.','https://hvg.hu/tudomany/20260702_ensz-jelentes-mesterseges-intelligencia-fejlodese-katasztrofalis-veszely-figyelmeztetes'],
+ [4,'AILit – MI-műveltségi keretrendszer (Európai Bizottság és OECD).','https://ailiteracyframework.org/hu/'],
+ [5,'Értés, ellenőrzés, felelősségvállalás – a tudatos MI-használat tanítása. Modern Iskola, 2026. szeptember (MI-módszereink sorozat; Dr. Verebics János, szerk. Tóth Éva).','https://moderniskola.hu/2026/09/ertes-ellenorzes-felelossegvallalas-a-tudatos-mi-hasznalat-tanitasa/'],
+ [6,'Hogyan lesz ebből mindennapi tanári gyakorlat? – átalakító sablon, feladatbank, értékelési rendszerek. Modern Iskola, 2026. szeptember (MI-módszereink sorozat).','https://moderniskola.hu/2026/09/hogyan-lesz-ebbol-mindennapi-tanari-gyakorlat-atalakito-sablon-feladatbank-ertekelesi-rendszerek/'],
+ [7,'Antaliné Miss Lilla: Emberközpontú értékelés az AI korában. PedExpert, 2026. június (Sawan, M. 2026, SHIELD-keret alapján).','https://pedexpert.hu/emberkozpontu-ertekeles-az-ai-koraban/'],
+ [8,'Amit az EU mesterséges intelligencia rendelete a tanári munkában már közvetlenül érint – az átláthatóság és tartalomjelölés új szabályai 2026-ban. A játék a témát a Modern Iskola 2026. augusztusi összefoglalója alapján dolgozza fel: „A generatív MI tartalmakra vonatkozó aktuális szabályokról”.','https://tinyurl.com/4eyne25d','https://moderniskola.hu/2026/08/a-generativ-mi-tartalmakra-vonatkozo-aktualis-szabalyokrol/']
+];
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+
+/* ---------- szerver ---------- */
+const API={
+  async call(path,opts={}){
+    const r=await fetch(path,Object.assign({cache:'no-store'},opts));
+    let j={}; try{j=await r.json();}catch(e){}
+    if(!r.ok){const e=new Error(j.error||'Kapcsolati hiba.');e.status=r.status;throw e;}
+    return j;
+  },
+  state(code,{voter,beat,host}={}){
+    const q=new URLSearchParams({code});
+    if(voter)q.set('voter',voter); if(beat)q.set('beat','1'); if(host)q.set('host','1');
+    return this.call('/api/state?'+q,{headers:host?{'x-host-key':hostKey()}:{}});
+  },
+  vote(b){return this.call('/api/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});},
+  host(b){return this.call('/api/host',{method:'POST',headers:{'Content-Type':'application/json','x-host-key':hostKey()},body:JSON.stringify(b)});}
+};
+const hostKey=()=>LS.get('lampalaz-hostkey')||'';
+function voterId(){
+  let v=LS.get('lampalaz-voter');
+  if(!v){v=(crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)));LS.set('lampalaz-voter',v);}
+  return v;
+}
+const POLL_MS=2000;
+
+/* ---------- state ---------- */
+let mode='menu';               // menu | solo | host | player
+let st={i:-1,picks:[],phase:'q'};   // solo
+const G={code:null,live:null,poll:null,myVotes:{},busy:false,err:'',lastKey:'',players:0,votes:0,n:0,fails:0};
+
+/* ---------- side panel ---------- */
+function setLight(l,txt){
+  ['r','y','g','b'].forEach(k=>$('L-'+k).classList.toggle('on', l==='all'||l===k));
+  const t=$('lighttxt');
+  if(txt){t.innerHTML=txt;return;}
+  if(!l){t.innerHTML='<span class="empty">Ennél a döntésnél nem egy feladat színéről volt szó.</span>';return;}
+  if(l==='all'){t.innerHTML='<b>Mind a négy szín</b> a terem falán.';return;}
+  t.innerHTML=`<b>${LIGHTS[l].n}</b><br>${LIGHTS[l].d}`;
+}
+function renderSide(picks,cur){
+  $('tl').innerHTML=SCENES.map((s,k)=>`<span class="${k<picks.length&&picks[k]!=null?'done':(k===cur?'now':'')}" title="${esc(s.kicker)}"></span>`).join('');
+  const cnt={int:0,alk:0,kez:0,ala:0};
+  picks.forEach((p,k)=>{if(p!=null)SCENES[k].opts[p].d.forEach(d=>cnt[d]++)});
+  $('doms').innerHTML=DOMS.map(([k,lab])=>`<div class="dom ${cnt[k]?'hit':''}"><b>${cnt[k]}</b>${lab}</div>`).join('');
+  const done=picks.map((p,k)=>[p,k]).filter(x=>x[0]!=null);
+  $('nb').innerHTML=done.length?done.map(([p,k])=>`<li><span class="m">${SCENES[k].m}</span><span>${esc(SCENES[k].opts[p].n)}</span></li>`).join(''):'<li class="empty">Még üres.</li>';
+  $('nbtitle').textContent = (mode==='host'||mode==='player') ? 'A csoport jegyzetfüzete' : 'Bence jegyzetfüzete';
+}
+
+/* ---------- shared scene views ---------- */
+function sceneHead(i,sc){
+  return `<div class="kicker">${i+1} / ${SCENES.length} · ${esc(sc.kicker)}</div><h2>${esc(sc.title)}</h2>`;
+}
+function resultBlock(sc,p,counts,label){
+  const o=sc.opts[p], other=sc.opts[1-p];
+  let bars='';
+  if(counts){
+    const tot=(counts[0]||0)+(counts[1]||0);
+    bars=`<div class="bars">${[0,1].map(k=>{const v=counts[k]||0;const pc=tot?Math.round(v*100/tot):0;
+      return `<div class="bar ${k===p?'win':''}"><span class="bk">${KEYS[k]}</span><span class="track"><span class="fill" style="width:${pc}%"></span></span><span class="bv">${v} szavazat</span></div>`}).join('')}</div>`;
+  }
+  return `${bars}
+    <div class="chosen"><div class="lbl">${label} (${KEYS[p]})</div><p style="margin:0 0 .5em"><b>${esc(o.t)}</b></p><p style="margin:0">${esc(o.o)}</p></div>
+    <div class="other"><div class="lbl">Másik lehetséges lépés (${KEYS[1-p]})</div><p style="margin:0 0 .5em"><b>${esc(other.t)}</b></p><p style="margin:0">${esc(other.o)}</p></div>
+    <div class="src"><div class="lbl">Mit mond a forrás? [${sc.refs.join(', ')}]</div>${sc.src}</div>`;
+}
+function endBlock(picks,counts,group){
+  return `
+    <div class="kicker">Február vége</div>
+    <h2>Félidő</h2>
+    <p>${group?'A csoport':'Bence'} első félévének nyolc döntése a jegyzetfüzetben áll. Egyik sem végleges: a második félévben bármelyiket újra lehet gondolni, és más úton is el lehet jutni hasonló helyre. Az oldalsávon látható, mely MI-műveltségi területeket érintették a döntések.</p>
+    <h3>Kérdések a megbeszéléshez</h3>
+    <ol class="disc">
+      <li>A saját tantárgyában melyik lámpaszínt a legnehezebb következetesen alkalmazni, és miért?</li>
+      <li>Egy saját feladatában hol húzódik a határ segítség, támogatás és helyettesítés között?</li>
+      <li>Melyik feladata a leginkább „sérülékeny” MI-környezetben? Milyen kis kiegészítés tenné láthatóvá benne a tanuló saját munkáját?</li>
+      <li>Mit mondana két mondatban egy aggódó szülőnek úgy, hogy közben a kockázatokat sem hallgatja el?</li>
+      <li>Kezdő pedagógusként mit vállalna egyedül a saját osztályában, és mit vinne a munkaközösség elé?</li>
+      ${group?'<li>Melyik szavazásnál lett volna más a döntés, ha csak Ön dönt? Mit látott a többiek választásában, amit egyedül nem?</li>':''}
+    </ol>
+    <details ${group?'open':''}>
+      <summary>Döntések áttekintése</summary>
+      <div class="rev">${SCENES.map((sc,k)=>{const p=picks[k];if(p==null)return '';const c=counts&&counts[k];
+        return `<div><div class="t">${esc(sc.kicker)} · ${esc(sc.title)}</div>${group?'A csoport döntése':'Az Ön választása'}: <b>${KEYS[p]})</b> ${esc(sc.opts[p].t)}${c?` <span class="pill">${c[0]}–${c[1]}</span>`:''}<br>Másik lehetséges lépés: <b>${KEYS[1-p]})</b> ${esc(sc.opts[1-p].t)}</div>`}).join('')}</div>
+    </details>
+    <details>
+      <summary>Források</summary>
+      <ol class="sources">${SOURCES.map(s=>`<li value="${s[0]}">${esc(s[1])} <a href="${s[2]}" target="_blank" rel="noopener">Megnyitás</a>${s[3]?` · <a href="${s[3]}" target="_blank" rel="noopener">Modern Iskola-összefoglaló</a>`:''}</li>`).join('')}</ol>
+    </details>`;
+}
+const sendBlock=`
+    <section class="send">
+      <h3 style="margin-bottom:4px">Fakultatív: reflexió küldése</h3>
+      <p class="note" style="margin:0 0 6px">Ha szeretné, írja le néhány mondatban, mit gondol a felvetett kérdésekről, és küldje el a tréner által megadott címre.</p>
+      <div class="field"><label for="refl-mail">E-mail-cím (a tréner adja meg a helyszínen)</label>
+        <input id="refl-mail" type="email" inputmode="email" autocomplete="off" placeholder="pl. nev@iskola.hu"></div>
+      <div class="field"><label for="refl-text">Reflexió</label>
+        <textarea id="refl-text"></textarea></div>
+      <div class="row" style="margin-top:4px">
+        <button class="btn" id="copy">Szöveg másolása</button>
+        <a class="btn ghost" id="mail" href="mailto:" target="_blank" rel="noopener">Megnyitás levelezőben</a>
+      </div>
+      <div class="msg" id="msg" role="status"></div>
+      <p class="note" style="margin:8px 0 0">Ha a levelezőprogram nem nyílik meg, másolja ki a szöveget, és küldje el a megadott címre a saját levelezőjéből.</p>
+    </section>`;
+function setupSend(){
+  const ta=$('refl-text'), em=$('refl-mail'), mail=$('mail'), msg=$('msg');
+  if(!ta) return;
+  const def='Lámpaláz – reflexió\n\n';
+  ta.value=LS.get('lampalaz-refl')||def; em.value=LS.get('lampalaz-mail')||'';
+  const upd=()=>{
+    LS.set('lampalaz-refl',ta.value); LS.set('lampalaz-mail',em.value);
+    mail.href='mailto:'+encodeURIComponent(em.value.trim())+'?subject='+encodeURIComponent('Reflexió – Lámpaláz')+'&body='+encodeURIComponent(ta.value);
+  };
+  ta.oninput=upd; em.oninput=upd; upd();
+  $('copy').onclick=()=>{
+    const done=()=>{msg.textContent='A szöveg a vágólapon van.';};
+    const fallback=()=>{ta.focus();ta.select();msg.textContent='Jelölje ki és másolja a szöveget (Ctrl+C / Cmd+C).';};
+    try{ navigator.clipboard.writeText(ta.value).then(done,fallback); }catch(e){ fallback(); }
+  };
+}
+
+/* ---------- menu ---------- */
+function menu(){
+  setLight(null,'<span class="empty">A lámpa akkor gyullad fel, ha egy döntés egy feladat MI-szerepéről szól.</span>');
+  renderSide([],-1);
+  const lastHost=LS.get('lampalaz-host'), lastJoin=LS.get('lampalaz-join');
+  const groupHtml=`
+      <div class="join">
+        <label for="codein">Csatlakozás kóddal</label>
+        <div class="row" style="margin-top:6px">
+          <input id="codein" class="codein" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="KÓD" value="${lastJoin?esc(lastJoin):''}">
+          <button class="btn" id="joinbtn">Csatlakozás</button>
+        </div>
+        <div class="msg" id="joinmsg" role="status"></div>
+      </div>
+      <details class="hostbox" ${lastHost?'open':''}>
+        <summary>Előadóknak</summary>
+        <div class="row" style="margin-top:8px;align-items:center">
+          <input id="hostpw" type="password" class="pwin" placeholder="Előadói jelszó" autocomplete="current-password" value="${hostKey()?'••••••••':''}">
+          <button class="btn ghost" id="hostbtn">Csoportos játék indítása</button>
+          ${lastHost?`<button class="btn ghost" id="resumebtn">Folytatás: ${esc(lastHost)}</button>`:''}
+        </div>
+        <div class="msg" id="hostmsg" role="status"></div>
+      </details>`;
+  $('story').innerHTML=`
+  <div class="kicker">Kalandjáték kezdő pedagógusoknak · csoportos változat</div>
+  <h1>Lámpaláz</h1>
+  <p class="sub">Mesterséges intelligencia az első tanévben</p>
+  <p>Fekete Bence szeptemberben kezdi első tanévét egy gimnáziumban. Az MI már ott van a diákok zsebében, a tanulásirányító rendszerben és a tanári szobai beszélgetésekben is. A csoport szeptembertől februárig nyolc helyzetben dönt helyette: minden helyzetben az a lépés valósul meg, amelyik több szavazatot kap.</p>
+  <ul class="intro">
+    <li>A szimuláció nyolc, 2026-ban megjelent forrás (szakcikkek, uniós útmutató, MI-műveltségi keretrendszer, hír) gondolataira épül. A forrásokat a játék végén soroljuk fel.</li>
+    <li>Minden helyzetben két, egyaránt védhető lépés közül választhat. Nincs jó vagy rossz válasz: a cél a források gondolatainak szemléltetése és a megbeszélés előkészítése.</li>
+    <li>A válaszokat nem pontozzuk, a szimulációt - igény esetén - megbeszélés vagy reflexió követi.</li>
+    <li>Játékidő csoportban: kb. 15–20 perc.</li>
+  </ul>
+  <h3>A lámpa színei a játékban</h3>
+  <div class="legend">
+    ${Object.entries(LIGHTS).map(([k,v])=>`<div><span class="dot" style="background:var(--${({r:'red',y:'yellow',g:'green',b:'blue'})[k]})"></span><span><b>${v.n}:</b> ${v.d}</span></div>`).join('')}
+  </div>
+  <p class="note">A közlekedési lámpa modell a finn Arene ajánlásán alapul, magyarul Tóth Éva ismertette. A színek fenti leírása a játék saját munkadefiníciója. A történet szereplői kitaláltak, a jogi részletek egyszerűsítve szerepelnek.</p>
+  <div class="modebox">${groupHtml}</div>
+  <div class="row"><button class="btn ghost" id="solobtn">Egyéni játék</button></div>`;
+  $('solobtn').onclick=()=>{mode='solo';st={i:0,picks:[],phase:'q'};render();focusStory();};
+  if($('joinbtn')){
+    const go=()=>{const c=($('codein').value||'').trim().toUpperCase();
+      if(!/^[A-Z0-9]{4}$/.test(c)){$('joinmsg').textContent='A kód négy karakter.';return;}
+      startPlayer(c);};
+    $('joinbtn').onclick=go;
+    $('codein').onkeydown=e=>{if(e.key==='Enter')go();};
+  }
+  const savePw=()=>{const v=$('hostpw').value; if(v&&v!=='••••••••') LS.set('lampalaz-hostkey',v); if(!hostKey()){$('hostmsg').textContent='Adja meg az előadói jelszót.';return false;} return true;};
+  $('hostpw').onfocus=()=>{ if($('hostpw').value==='••••••••') $('hostpw').value=''; };
+  $('hostbtn').onclick=()=>{ if(savePw()) startHost(null); };
+  if($('resumebtn')) $('resumebtn').onclick=()=>{ if(savePw()) startHost(lastHost); };
+}
+
+/* ---------- solo ---------- */
+function solo(){
+  const sc=SCENES[st.i];
+  renderSide(st.picks,st.i);
+  if(st.phase==='end'){
+    setLight(null,`<span class="empty">Vége a félévnek.</span>`);
+    $('story').innerHTML=endBlock(st.picks,null,false)+sendBlock+`<div class="row"><button class="btn ghost" id="again">Vissza a kezdőlapra</button></div>`;
+    setupSend(); $('again').onclick=()=>{mode='menu';render();focusStory();};
+    return;
+  }
+  if(st.phase==='q'){
+    setLight(null,'<span class="empty">Döntés előtt.</span>');
+    $('story').innerHTML=sceneHead(st.i,sc)+`<div class="body">${sc.body}</div>
+      <div class="opts">${sc.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${KEYS[k]}</span><span>${esc(o.t)}</span></button>`).join('')}</div>`;
+    document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{st.picks[st.i]=+b.dataset.k;st.phase='f';render();focusStory();});
+  } else {
+    const p=st.picks[st.i]; setLight(sc.opts[p].l);
+    const last=st.i===SCENES.length-1;
+    $('story').innerHTML=sceneHead(st.i,sc)+resultBlock(sc,p,null,'Az Ön lépése')+`<div class="row"><button class="btn" id="next">${last?'A tanév mérlege':'Tovább'}</button></div>`;
+    $('next').onclick=()=>{ if(last){st.phase='end';} else {st.i++;st.phase='q';} render();focusStory(); };
+  }
+}
+
+/* ---------- group: common ---------- */
+function stopPoll(){ if(G.poll){clearInterval(G.poll);G.poll=null;} }
+function leaveGroup(){
+  stopPoll();
+  G.code=null;G.live=null;G.myVotes={};G.err='';G.lastKey='';G.players=0;G.votes=0;G.n=0;G.fails=0;
+}
+function groupPicks(){const L=G.live;return (L&&Array.isArray(L.picks))?L.picks:[];}
+function applyGame(game){
+  G.live=game;
+  const key=game.scene+'|'+game.phase;
+  const changed=key!==G.lastKey; G.lastKey=key;
+  if(changed){render();focusStory();}
+  else if(mode==='host') updateHostCount();
+}
+async function pollOnce(){
+  if(!G.code) return;
+  const host=mode==='host';
+  G.n++;
+  try{
+    const r=await API.state(G.code,host?{host:true}:{voter:voterId(),beat:G.n%4===1});
+    G.fails=0;
+    if(host){G.players=r.players||0;G.votes=r.votes||0;}
+    if(G.err){G.err='';G.lastKey='';}
+    applyGame(r.game);
+  }catch(e){
+    G.fails++;
+    if(e.status===404){stopPoll();G.live=null;G.err=e.message;if(host)LS.del('lampalaz-host');render();return;}
+    if(e.status===403||e.status===500){stopPoll();G.err=e.message;render();return;}
+    if(G.fails===3){const n=$('netmsg'); if(n) n.textContent='A kapcsolat akadozik, próbálkozunk tovább…';}
+  }
+}
+function startPoll(){ stopPoll(); pollOnce(); G.poll=setInterval(pollOnce,POLL_MS); }
+
+/* ---------- host ---------- */
+async function startHost(resume){
+  mode='host'; leaveGroup();
+  $('story').innerHTML='<p class="note">Játék előkészítése…</p>';
+  let code=resume;
+  if(!code){
+    try{ const r=await API.host({action:'create'}); code=r.code; }
+    catch(e){
+      mode='menu'; render();
+      const m=$('hostmsg'); if(m) m.textContent=e.message;
+      if(e.status===403) LS.del('lampalaz-hostkey');
+      return;
+    }
+  }
+  G.code=code; LS.set('lampalaz-host',code);
+  startPoll();
+}
+async function hostWrite(body){
+  if(G.busy) return null; G.busy=true;
+  document.querySelectorAll('#story button').forEach(b=>b.disabled=true);
+  let r=null;
+  try{ r=await API.host(Object.assign({code:G.code},body)); if(r.game) applyGame(r.game); }
+  catch(e){ G.err=e.message; G.lastKey=''; render(); }
+  G.busy=false;
+  document.querySelectorAll('#story button').forEach(b=>b.disabled=false);
+  return r;
+}
+function updateHostCount(){
+  const el=$('pcount'); if(el) el.textContent=G.players;
+  const ve=$('vcount'); if(ve) ve.textContent=G.votes;
+}
+function host(){
+  const L=G.live;
+  if(!G.code||!L){
+    renderSide([], -1);
+    $('story').innerHTML=`<h2>Csoportos játék</h2><p>${esc(G.err||'Csatlakozás…')}</p><div class="row"><button class="btn ghost" id="back">Vissza a kezdőlapra</button></div>`;
+    $('back').onclick=()=>{leaveGroup();mode='menu';render();};
+    return;
+  }
+  const picks=groupPicks(), counts=L.counts||[];
+  const codeBar=`<div class="codebar"><span>Kód: <b class="code">${esc(G.code)}</b></span><span>Aktív résztvevő: <b id="pcount">${G.players}</b></span></div>`;
+  const errHtml=`<p class="msg" id="netmsg">${G.err?esc(G.err):''}</p>`;
+  renderSide(picks, L.phase==='end'?-1:L.scene);
+  if(L.phase==='lobby'){
+    setLight(null,'<span class="empty">Várakozás a résztvevőkre.</span>');
+    $('story').innerHTML=`<div class="kicker">Előadói nézet</div><h2>Csatlakozás a játékhoz</h2>
+      <p>A résztvevők nyissák meg ezt a címet, és írják be a kódot:</p>
+      <p class="center url">${esc(location.host)}</p>
+      <div class="bigcode">${esc(G.code)}</div>
+      <p class="center">Csatlakozott: <b id="pcount">${G.players}</b> fő</p>
+      ${errHtml}
+      <div class="row"><button class="btn" id="go">A játék indítása</button><button class="btn ghost" id="quit">Kilépés</button></div>
+      <p class="note">Minden helyzetben az a lépés valósul meg, amelyik több szavazatot kap. Döntetlennél, vagy ha senki nem szavazott, Ön dönt.</p>`;
+    $('go').onclick=()=>hostWrite({action:'start'});
+    $('quit').onclick=()=>{leaveGroup();mode='menu';render();};
+    return;
+  }
+  if(L.phase==='end'){
+    setLight(null,'<span class="empty">Vége a félévnek.</span>');
+    $('story').innerHTML=codeBar+endBlock(picks,counts,true)+`<div class="row"><button class="btn ghost" id="newg">Új csoportos játék</button><button class="btn ghost" id="quit">Kilépés</button></div>`;
+    $('newg').onclick=()=>{LS.del('lampalaz-host');startHost(null);};
+    $('quit').onclick=()=>{LS.del('lampalaz-host');leaveGroup();mode='menu';render();};
+    return;
+  }
+  const i=L.scene, sc=SCENES[i];
+  if(L.phase==='q'){
+    setLight(null,'<span class="empty">Szavazás folyik.</span>');
+    $('story').innerHTML=codeBar+sceneHead(i,sc)+`<div class="body">${sc.body}</div>
+      <div class="opts">${sc.opts.map((o,k)=>`<div class="opt static"><span class="k">${KEYS[k]}</span><span>${esc(o.t)}</span></div>`).join('')}</div>
+      <p class="center" style="margin-top:16px">Beérkezett szavazat: <b id="vcount">${G.votes}</b></p>
+      ${errHtml}
+      <div id="tiebox"></div>
+      <div class="row"><button class="btn" id="close">Szavazás lezárása</button></div>`;
+    $('close').onclick=async()=>{
+      const r=await hostWrite({action:'close'});
+      if(r&&r.tie){
+        const c=r.counts;
+        $('tiebox').innerHTML=`<div class="tie"><b>${c[0]+c[1]?`Döntetlen (${c[0]}–${c[1]}).`:'Nem érkezett szavazat.'}</b> Melyik lépés valósuljon meg?
+          <div class="row"><button class="btn" data-w="0">A</button><button class="btn" data-w="1">B</button><button class="btn ghost" id="wait">Várunk még</button></div></div>`;
+        $('tiebox').querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>hostWrite({action:'close',w:+b.dataset.w}));
+        $('wait').onclick=()=>{$('tiebox').innerHTML='';};
+      }
+    };
+    return;
+  }
+  const p=picks[i]; setLight(sc.opts[p].l);
+  const last=i===SCENES.length-1;
+  $('story').innerHTML=codeBar+sceneHead(i,sc)+resultBlock(sc,p,counts[i],'A csoport döntése')+errHtml+
+    `<div class="row"><button class="btn" id="next">${last?'A tanév mérlege':'Tovább'}</button></div>`;
+  $('next').onclick=()=>hostWrite({action:'next'});
+}
+
+/* ---------- player ---------- */
+async function startPlayer(code){
+  mode='player'; leaveGroup();
+  G.code=code; LS.set('lampalaz-join',code);
+  try{G.myVotes=JSON.parse(LS.get('lampalaz-votes-'+code)||'{}')||{};}catch(e){G.myVotes={};}
+  $('story').innerHTML='<p class="note">Csatlakozás…</p>';
+  G.n=0; startPoll();
+}
+async function vote(i,k){
+  const m=$('votemsg');
+  document.querySelectorAll('.opt[data-k]').forEach(b=>{const on=+b.dataset.k===k;b.classList.toggle('sel',on);b.setAttribute('aria-pressed',on?'true':'false');});
+  if(m) m.textContent='Küldés…';
+  try{
+    await API.vote({code:G.code,voter:voterId(),scene:i,choice:k});
+    G.myVotes=Object.assign({},G.myVotes,{[String(i)]:k});
+    LS.set('lampalaz-votes-'+G.code,JSON.stringify(G.myVotes));
+    if(m) m.textContent=`Az Ön szavazata: ${KEYS[k]}. A szavazás lezárásáig módosíthatja.`;
+  }catch(e){
+    const prev=G.myVotes[String(i)];
+    document.querySelectorAll('.opt[data-k]').forEach(b=>{const on=+b.dataset.k===prev;b.classList.toggle('sel',on);b.setAttribute('aria-pressed',on?'true':'false');});
+    if(m) m.textContent=e.status===409?e.message:'A szavazat elküldése nem sikerült. Kattintson újra.';
+  }
+}
+function player(){
+  const L=G.live;
+  const back=`<div class="row"><button class="btn ghost" id="leave">Kilépés a játékból</button></div>`;
+  const bindBack=()=>{const b=$('leave'); if(b) b.onclick=()=>{leaveGroup();mode='menu';render();};};
+  if(!L){
+    renderSide([],-1);
+    $('story').innerHTML=`<h2>Csatlakozás: ${esc(G.code||'')}</h2><p>${esc(G.err||'Várakozás a játék állapotára…')}</p>`+back;
+    bindBack(); return;
+  }
+  const picks=groupPicks(), counts=L.counts||[];
+  const bar=`<div class="codebar"><span>Játék: <b class="code">${esc(G.code)}</b></span><span class="msg" id="netmsg" style="margin:0"></span></div>`;
+  renderSide(picks, L.phase==='end'?-1:L.scene);
+  if(L.phase==='lobby'){
+    setLight(null,'<span class="empty">Várakozás az indulásra.</span>');
+    $('story').innerHTML=bar+`<h2>Ön csatlakozott</h2><p>Várjuk, hogy az előadó elindítsa a játékot. Az első helyzet itt jelenik meg.</p>`+back;
+    bindBack(); return;
+  }
+  if(L.phase==='end'){
+    stopPoll();
+    setLight(null,'<span class="empty">Vége a félévnek.</span>');
+    $('story').innerHTML=bar+endBlock(picks,counts,true)+sendBlock+back;
+    setupSend(); bindBack(); return;
+  }
+  const i=L.scene, sc=SCENES[i];
+  if(L.phase==='q'){
+    setLight(null,'<span class="empty">Szavazás folyik.</span>');
+    const mine=G.myVotes[String(i)];
+    $('story').innerHTML=bar+sceneHead(i,sc)+`<div class="body">${sc.body}</div>
+      <div class="opts">${sc.opts.map((o,k)=>`<button class="opt ${mine===k?'sel':''}" data-k="${k}" aria-pressed="${mine===k}"><span class="k">${KEYS[k]}</span><span>${esc(o.t)}</span></button>`).join('')}</div>
+      <p class="msg" id="votemsg" role="status">${mine===0||mine===1?`Az Ön szavazata: ${KEYS[mine]}. A szavazás lezárásáig módosíthatja.`:'Válasszon, majd várja meg, amíg az előadó lezárja a szavazást.'}</p>`;
+    document.querySelectorAll('.opt[data-k]').forEach(b=>b.onclick=()=>vote(i,+b.dataset.k));
+    return;
+  }
+  const p=picks[i]; if(p==null){ $('story').innerHTML=bar+'<p class="note">Az eredmény betöltése…</p>'; return; }
+  setLight(sc.opts[p].l);
+  const mine=G.myVotes[String(i)];
+  $('story').innerHTML=bar+sceneHead(i,sc)+(mine===0||mine===1?`<p class="note">Ön a(z) ${KEYS[mine]} lépésre szavazott.</p>`:'')+resultBlock(sc,p,counts[i],'A csoport döntése')+
+    `<p class="note">A következő helyzetet az előadó indítja.</p>`;
+}
+
+/* ---------- router ---------- */
+function render(){
+  if(mode==='menu') menu();
+  else if(mode==='solo') solo();
+  else if(mode==='host') host();
+  else player();
+}
+function focusStory(){
+  const h=$('story').querySelector('h1,h2');
+  if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}
+  const top=$('story').getBoundingClientRect().top;
+  if(top<0||window.innerWidth<=860) $('story').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+}
+render();
+</script>
+</body>
+</html>
