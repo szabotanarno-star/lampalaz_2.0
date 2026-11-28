@@ -231,6 +231,21 @@ const SCENES=[
   refs:[8,2]
 },
 {
+  kicker:'November vége', m:'nov.', title:'A vizuális típusú diákok',
+  body:`<p>A tanáriban egy tapasztalt kolléga jó szívvel ad tanácsot Bencének: „Mérd fel a 9.b tanulási stílusát. A vizuálisoknak ábra, az auditívoknak hanganyag, a kinesztetikusoknak mozgás. Nálam bevált.”</p>
+  <p>Este Bence megkéri az MI-asszisztenst: „Készíts óratervet a romantikáról a 9.b-nek úgy, hogy a vizuális, az auditív és a kinesztetikus tanulók is a saját stílusukban tanuljanak.” Rendezett, háromsávos terv érkezik, megjegyzés nélkül. Kíváncsiságból külön is rákérdez: „Igaz, hogy a diákok jobban tanulnak, ha a kedvelt tanulási stílusukban kapják az anyagot?” A válasz: nem, ez neuromítosz. Bence nem érti, hogyan adhatott ugyanaz a program ugyanazon az estén két ellentétes választ.</p>`,
+  opts:[
+    {t:'Újrakéri az óratervet, és a kérés végére odaírja: „Ha a kérésemben tudományosan nem megalapozott feltételezés van, jelezd és javítsd.” Ettől kezdve ezt a mondatot minden tervezési kéréséhez hozzáteszi.',
+     o:'Az új válasz már az első bekezdésben jelzi, hogy a tanulási stílusokhoz igazított tanítást a kutatások nem támasztják alá, és olyan tervet ad, amelyben mindenki ugyanazt a változatos anyagot kapja. Bence megtartja belőle a használható részeket. A kollégának nem szól, mert nem akarja kioktatni. A mondat segít, de Bence tudja, hogy csak arra figyelmeztet, amit a gép felismer.',
+     l:null,d:['int','kez'],n:'Javítást kérő mondat minden tervezési kérésben'},
+    {t:'A gépi tervet félreteszi. A következő munkaközösségi szünetben a kollégával és a mentorral együtt megnézik, mit mond a kutatás a tanulási stílusokról, és közösen terveznek egy órát.',
+     o:'Egy délutánjába kerül, és a kolléga először sértetten fogadja. A beszélgetés végére megegyeznek egy óratervben, amelyben a tartalomhoz illő ábrák és szövegek minden diáknak szólnak, nem egy-egy „típusnak”. Bence ráébred, hogy a gép pontosan azt a feltételezést írta vissza neki, amelyet a kollégától hallott.',
+     l:null,d:['kez','ala'],n:'Közös utánajárás a munkaközösségben'}
+  ],
+  src:`Richter, Spitzer és munkatársaik 2025-ös kutatásukban a ChatGPT-t, a Geminit és a DeepSeeket húsz ismert <b>neuromítoszon</b> vizsgálták. Ha az állításokról közvetlenül kérdezték őket (igaz vagy hamis?), a modellek hibaaránya 26–27% volt, nagyjából fele az emberi mintákénak (40–60%). Ha viszont a mítosz egy gyakorlati tanári kérés kiindulópontjaként jelent meg (például: „szeretném támogatni a vizuális tanulóimat”), a hibaarány 51–66%-ra nőtt: a modellek többnyire átvették a téves feltételezést. A szerzők ezt <b>megfelelési hajlamnak</b> nevezik. Amikor a kérés kifejezetten azt kérte, hogy a modell javítsa a megalapozatlan feltételezéseket, a hibák jelentősen csökkentek; a tudományos bizonyítékokra hivatkozás kérése kevésbé segített. A szerzők következtetése: a nyelvi modellek egyelőre nem megbízható védőhálók a neuromítoszok ellen.`,
+  refs:[9]
+},
+{
   kicker:'December', m:'dec.', title:'Témazáró, másképp',
   body:`<p>A 10.a reformkori projektje a végéhez közeledik. Bence a munkaközösségi értekezleten azt hallja: „Ha otthon készül, úgysem tudod, ki csinálta.” Kezdőként az értékelés ad neki a legtöbb álmatlan éjszakát.</p>`,
   opts:[
@@ -284,7 +299,8 @@ const SOURCES=[
  [5,'Értés, ellenőrzés, felelősségvállalás – a tudatos MI-használat tanítása. Modern Iskola, 2026. szeptember (MI-módszereink sorozat; Dr. Verebics János, szerk. Tóth Éva).','https://moderniskola.hu/2026/09/ertes-ellenorzes-felelossegvallalas-a-tudatos-mi-hasznalat-tanitasa/'],
  [6,'Hogyan lesz ebből mindennapi tanári gyakorlat? – átalakító sablon, feladatbank, értékelési rendszerek. Modern Iskola, 2026. szeptember (MI-módszereink sorozat).','https://moderniskola.hu/2026/09/hogyan-lesz-ebbol-mindennapi-tanari-gyakorlat-atalakito-sablon-feladatbank-ertekelesi-rendszerek/'],
  [7,'Antaliné Miss Lilla: Emberközpontú értékelés az AI korában. PedExpert, 2026. június (Sawan, M. 2026, SHIELD-keret alapján).','https://pedexpert.hu/emberkozpontu-ertekeles-az-ai-koraban/'],
- [8,'Amit az EU mesterséges intelligencia rendelete a tanári munkában már közvetlenül érint – az átláthatóság és tartalomjelölés új szabályai 2026-ban. A játék a témát a Modern Iskola 2026. augusztusi összefoglalója alapján dolgozza fel: „A generatív MI tartalmakra vonatkozó aktuális szabályokról”.','https://tinyurl.com/4eyne25d','https://moderniskola.hu/2026/08/a-generativ-mi-tartalmakra-vonatkozo-aktualis-szabalyokrol/']
+ [8,'Amit az EU mesterséges intelligencia rendelete a tanári munkában már közvetlenül érint – az átláthatóság és tartalomjelölés új szabályai 2026-ban. A játék a témát a Modern Iskola 2026. augusztusi összefoglalója alapján dolgozza fel: „A generatív MI tartalmakra vonatkozó aktuális szabályokról”.','https://tinyurl.com/4eyne25d','https://moderniskola.hu/2026/08/a-generativ-mi-tartalmakra-vonatkozo-aktualis-szabalyokrol/','Modern Iskola-összefoglaló'],
+ [9,'Richter, E., Spitzer, M. W. H. és mtsai (2025): Large language models outperform humans in identifying neuromyths but show sycophantic behavior in applied contexts. Trends in Neuroscience and Education, 39, 100255. DOI: 10.1016/j.tine.2025.100255 (nyílt hozzáférésű). Közérthető összefoglaló: Moeller, K. – Spitzer, M.: Can ChatGPT Catch Educational Neuromyths? What Teachers Should Know About Asking AI for Help. Loughborough University, Centre for Mathematical Cognition blog, 2025. november.','http://dx.doi.org/10.25673/119385','https://blog.lboro.ac.uk/cmc/2025/11/03/can-chatgpt-catch-educational-neuromyths-what-teachers-should-know-about-asking-ai-for-help/','Blogbejegyzés (Moeller–Spitzer)']
 ];
 
 const $=id=>document.getElementById(id);
@@ -360,11 +376,12 @@ function endBlock(picks,counts,group){
   return `
     <div class="kicker">Február vége</div>
     <h2>Félidő</h2>
-    <p>${group?'A csoport':'Bence'} első félévének nyolc döntése a jegyzetfüzetben áll. Egyik sem végleges: a második félévben bármelyiket újra lehet gondolni, és más úton is el lehet jutni hasonló helyre. Az oldalsávon látható, mely MI-műveltségi területeket érintették a döntések.</p>
+    <p>${group?'A csoport':'Bence'} első félévének kilenc döntése a jegyzetfüzetben áll. Egyik sem végleges: a második félévben bármelyiket újra lehet gondolni, és más úton is el lehet jutni hasonló helyre. Az oldalsávon látható, mely MI-műveltségi területeket érintették a döntések.</p>
     <h3>Kérdések a megbeszéléshez</h3>
     <ol class="disc">
       <li>A saját tantárgyában melyik lámpaszínt a legnehezebb következetesen alkalmazni, és miért?</li>
       <li>Egy saját feladatában hol húzódik a határ segítség, támogatás és helyettesítés között?</li>
+      <li>Melyik saját MI-kérésében rejtőzhet olyan feltételezés, amelyet a gép szó nélkül átvesz?</li>
       <li>Melyik feladata a leginkább „sérülékeny” MI-környezetben? Milyen kis kiegészítés tenné láthatóvá benne a tanuló saját munkáját?</li>
       <li>Mit mondana két mondatban egy aggódó szülőnek úgy, hogy közben a kockázatokat sem hallgatja el?</li>
       <li>Kezdő pedagógusként mit vállalna egyedül a saját osztályában, és mit vinne a munkaközösség elé?</li>
@@ -377,7 +394,7 @@ function endBlock(picks,counts,group){
     </details>
     <details>
       <summary>Források</summary>
-      <ol class="sources">${SOURCES.map(s=>`<li value="${s[0]}">${esc(s[1])} <a href="${s[2]}" target="_blank" rel="noopener">Megnyitás</a>${s[3]?` · <a href="${s[3]}" target="_blank" rel="noopener">Modern Iskola-összefoglaló</a>`:''}</li>`).join('')}</ol>
+      <ol class="sources">${SOURCES.map(s=>`<li value="${s[0]}">${esc(s[1])} <a href="${s[2]}" target="_blank" rel="noopener">Megnyitás</a>${s[3]?` · <a href="${s[3]}" target="_blank" rel="noopener">${esc(s[4]||'Összefoglaló')}</a>`:''}</li>`).join('')}</ol>
     </details>`;
 }
 const sendBlock=`
@@ -439,12 +456,12 @@ function menu(){
   <div class="kicker">Kalandjáték kezdő pedagógusoknak · csoportos változat</div>
   <h1>Lámpaláz</h1>
   <p class="sub">Mesterséges intelligencia az első tanévben</p>
-  <p>Fekete Bence szeptemberben kezdi első tanévét egy gimnáziumban. Az MI már ott van a diákok zsebében, a tanulásirányító rendszerben és a tanári szobai beszélgetésekben is. A csoport szeptembertől februárig nyolc helyzetben dönt helyette: minden helyzetben az a lépés valósul meg, amelyik több szavazatot kap.</p>
+  <p>Fekete Bence szeptemberben kezdi első tanévét egy gimnáziumban. Az MI már ott van a diákok zsebében, a tanulásirányító rendszerben és a tanári szobai beszélgetésekben is. A csoport szeptembertől februárig kilenc helyzetben dönt helyette: minden helyzetben az a lépés valósul meg, amelyik több szavazatot kap.</p>
   <ul class="intro">
-    <li>A szimuláció nyolc, 2026-ban megjelent forrás (szakcikkek, uniós útmutató, MI-műveltségi keretrendszer, hír) gondolataira épül. A forrásokat a játék végén soroljuk fel.</li>
+    <li>A szimuláció kilenc, 2025–2026-ban megjelent forrás (szakcikkek, egy kutatás, uniós útmutató, MI-műveltségi keretrendszer, hír) gondolataira épül. A forrásokat a játék végén soroljuk fel.</li>
     <li>Minden helyzetben két, egyaránt védhető lépés közül választhat. Nincs jó vagy rossz válasz: a cél a források gondolatainak szemléltetése és a megbeszélés előkészítése.</li>
     <li>A válaszokat nem pontozzuk, a szimulációt - igény esetén - megbeszélés vagy reflexió követi.</li>
-    <li>Játékidő csoportban: kb. 15–20 perc.</li>
+    <li>Játékidő csoportban: kb. 20 perc.</li>
   </ul>
   <h3>A lámpa színei a játékban</h3>
   <div class="legend">
